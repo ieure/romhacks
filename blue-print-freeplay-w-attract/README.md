@@ -2,9 +2,9 @@
 
 ## Installation
 
-Burn the ROM images bp-1.1m and bp-5.1s to two 2732A EPROMs, and
-install them at 1M and 5S on the main game PCB. Ensure that the free
-play DIP is set to the correct position. That’s it.
+Burn the ROM images bp-1.1m and bp-5.1s to 2732A EPROMs, and install
+them at 1M and 5S on the main game PCB. Ensure that the free play DIP
+is set to the correct position. That’s it.
 
 Note that your game PCB may be configured to use 2532 EPROMs, rather
 than 2732A. If this is the case, you will need to use 2532s, OR burn
