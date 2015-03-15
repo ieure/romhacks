@@ -4,3 +4,4 @@ This is a small collection of ROM hacks I’ve created for classic
 arcade video games.
 
  - [Blue Print: Freeplay with attract](blue-print-freeplay-w-attract/README.md)
+ - [Tac/Scan: Switchable freeplay with attract](tacscan-freeplay/README.md)
