@@ -1,0 +1,262 @@
+<?xml version="1.0"?>
+<!DOCTYPE mame [
+<!ELEMENT mame (game+)>
+	<!ATTLIST mame build CDATA #IMPLIED>
+	<!ATTLIST mame debug (yes|no) "no">
+	<!ATTLIST mame mameconfig CDATA #REQUIRED>
+	<!ELEMENT game (description, year?, manufacturer?, biosset*, rom*, disk*, device_ref*, sample*, chip*, display*, sound?, input?, dipswitch*, configuration*, adjuster*, driver?, device*, slot*, softwarelist*, ramoption*)>
+		<!ATTLIST game name CDATA #REQUIRED>
+		<!ATTLIST game sourcefile CDATA #IMPLIED>
+		<!ATTLIST game isbios (yes|no) "no">
+		<!ATTLIST game isdevice (yes|no) "no">
+		<!ATTLIST game ismechanical (yes|no) "no">
+		<!ATTLIST game runnable (yes|no) "yes">
+		<!ATTLIST game cloneof CDATA #IMPLIED>
+		<!ATTLIST game romof CDATA #IMPLIED>
+		<!ATTLIST game sampleof CDATA #IMPLIED>
+		<!ELEMENT description (#PCDATA)>
+		<!ELEMENT year (#PCDATA)>
+		<!ELEMENT manufacturer (#PCDATA)>
+		<!ELEMENT biosset EMPTY>
+			<!ATTLIST biosset name CDATA #REQUIRED>
+			<!ATTLIST biosset description CDATA #REQUIRED>
+			<!ATTLIST biosset default (yes|no) "no">
+		<!ELEMENT rom EMPTY>
+			<!ATTLIST rom name CDATA #REQUIRED>
+			<!ATTLIST rom bios CDATA #IMPLIED>
+			<!ATTLIST rom size CDATA #REQUIRED>
+			<!ATTLIST rom crc CDATA #IMPLIED>
+			<!ATTLIST rom sha1 CDATA #IMPLIED>
+			<!ATTLIST rom merge CDATA #IMPLIED>
+			<!ATTLIST rom region CDATA #IMPLIED>
+			<!ATTLIST rom offset CDATA #IMPLIED>
+			<!ATTLIST rom status (baddump|nodump|good) "good">
+			<!ATTLIST rom optional (yes|no) "no">
+		<!ELEMENT disk EMPTY>
+			<!ATTLIST disk name CDATA #REQUIRED>
+			<!ATTLIST disk sha1 CDATA #IMPLIED>
+			<!ATTLIST disk merge CDATA #IMPLIED>
+			<!ATTLIST disk region CDATA #IMPLIED>
+			<!ATTLIST disk index CDATA #IMPLIED>
+			<!ATTLIST disk writable (yes|no) "no">
+			<!ATTLIST disk status (baddump|nodump|good) "good">
+			<!ATTLIST disk optional (yes|no) "no">
+		<!ELEMENT device_ref EMPTY>
+			<!ATTLIST device_ref name CDATA #REQUIRED>
+		<!ELEMENT sample EMPTY>
+			<!ATTLIST sample name CDATA #REQUIRED>
+		<!ELEMENT chip EMPTY>
+			<!ATTLIST chip name CDATA #REQUIRED>
+			<!ATTLIST chip tag CDATA #IMPLIED>
+			<!ATTLIST chip type (cpu|audio) #REQUIRED>
+			<!ATTLIST chip clock CDATA #IMPLIED>
+		<!ELEMENT display EMPTY>
+			<!ATTLIST display tag CDATA #IMPLIED>
+			<!ATTLIST display type (raster|vector|lcd|unknown) #REQUIRED>
+			<!ATTLIST display rotate (0|90|180|270) #REQUIRED>
+			<!ATTLIST display flipx (yes|no) "no">
+			<!ATTLIST display width CDATA #IMPLIED>
+			<!ATTLIST display height CDATA #IMPLIED>
+			<!ATTLIST display refresh CDATA #REQUIRED>
+			<!ATTLIST display pixclock CDATA #IMPLIED>
+			<!ATTLIST display htotal CDATA #IMPLIED>
+			<!ATTLIST display hbend CDATA #IMPLIED>
+			<!ATTLIST display hbstart CDATA #IMPLIED>
+			<!ATTLIST display vtotal CDATA #IMPLIED>
+			<!ATTLIST display vbend CDATA #IMPLIED>
+			<!ATTLIST display vbstart CDATA #IMPLIED>
+		<!ELEMENT sound EMPTY>
+			<!ATTLIST sound channels CDATA #REQUIRED>
+		<!ELEMENT input (control*)>
+			<!ATTLIST input service (yes|no) "no">
+			<!ATTLIST input tilt (yes|no) "no">
+			<!ATTLIST input players CDATA #REQUIRED>
+			<!ATTLIST input buttons CDATA #IMPLIED>
+			<!ATTLIST input coins CDATA #IMPLIED>
+			<!ELEMENT control EMPTY>
+				<!ATTLIST control type CDATA #REQUIRED>
+				<!ATTLIST control minimum CDATA #IMPLIED>
+				<!ATTLIST control maximum CDATA #IMPLIED>
+				<!ATTLIST control sensitivity CDATA #IMPLIED>
+				<!ATTLIST control keydelta CDATA #IMPLIED>
+				<!ATTLIST control reverse (yes|no) "no">
+				<!ATTLIST control ways CDATA #IMPLIED>
+				<!ATTLIST control ways2 CDATA #IMPLIED>
+				<!ATTLIST control ways3 CDATA #IMPLIED>
+		<!ELEMENT dipswitch (dipvalue*)>
+			<!ATTLIST dipswitch name CDATA #REQUIRED>
+			<!ATTLIST dipswitch tag CDATA #REQUIRED>
+			<!ATTLIST dipswitch mask CDATA #REQUIRED>
+			<!ELEMENT dipvalue EMPTY>
+				<!ATTLIST dipvalue name CDATA #REQUIRED>
+				<!ATTLIST dipvalue value CDATA #REQUIRED>
+				<!ATTLIST dipvalue default (yes|no) "no">
+		<!ELEMENT configuration (confsetting*)>
+			<!ATTLIST configuration name CDATA #REQUIRED>
+			<!ATTLIST configuration tag CDATA #REQUIRED>
+			<!ATTLIST configuration mask CDATA #REQUIRED>
+			<!ELEMENT confsetting EMPTY>
+				<!ATTLIST confsetting name CDATA #REQUIRED>
+				<!ATTLIST confsetting value CDATA #REQUIRED>
+				<!ATTLIST confsetting default (yes|no) "no">
+		<!ELEMENT port (portbit*)>
+			<!ATTLIST port tag CDATA #REQUIRED>
+			<!ELEMENT analog EMPTY>
+				<!ATTLIST analog mask CDATA #REQUIRED>
+		<!ELEMENT adjuster EMPTY>
+			<!ATTLIST adjuster name CDATA #REQUIRED>
+			<!ATTLIST adjuster default CDATA #REQUIRED>
+		<!ELEMENT driver EMPTY>
+			<!ATTLIST driver status (good|imperfect|preliminary) #REQUIRED>
+			<!ATTLIST driver emulation (good|imperfect|preliminary) #REQUIRED>
+			<!ATTLIST driver color (good|imperfect|preliminary) #REQUIRED>
+			<!ATTLIST driver sound (good|imperfect|preliminary) #REQUIRED>
+			<!ATTLIST driver graphic (good|imperfect|preliminary) #REQUIRED>
+			<!ATTLIST driver cocktail (good|imperfect|preliminary) #IMPLIED>
+			<!ATTLIST driver protection (good|imperfect|preliminary) #IMPLIED>
+			<!ATTLIST driver savestate (supported|unsupported) #REQUIRED>
+			<!ATTLIST driver palettesize CDATA #REQUIRED>
+		<!ELEMENT device (instance*, extension*)>
+			<!ATTLIST device type CDATA #REQUIRED>
+			<!ATTLIST device tag CDATA #IMPLIED>
+			<!ATTLIST device mandatory CDATA #IMPLIED>
+			<!ATTLIST device interface CDATA #IMPLIED>
+			<!ELEMENT instance EMPTY>
+				<!ATTLIST instance name CDATA #REQUIRED>
+				<!ATTLIST instance briefname CDATA #REQUIRED>
+			<!ELEMENT extension EMPTY>
+				<!ATTLIST extension name CDATA #REQUIRED>
+		<!ELEMENT slot (slotoption*)>
+			<!ATTLIST slot name CDATA #REQUIRED>
+			<!ELEMENT slotoption EMPTY>
+				<!ATTLIST slotoption name CDATA #REQUIRED>
+				<!ATTLIST slotoption devname CDATA #REQUIRED>
+				<!ATTLIST slotoption default (yes|no) "no">
+		<!ELEMENT softwarelist EMPTY>
+			<!ATTLIST softwarelist name CDATA #REQUIRED>
+			<!ATTLIST softwarelist status (original|compatible) #REQUIRED>
+			<!ATTLIST softwarelist filter CDATA #IMPLIED>
+		<!ELEMENT ramoption (#PCDATA)>
+			<!ATTLIST ramoption default CDATA #IMPLIED>
+]>
+
+<mame build="0.152 (Dec 25 2013)" debug="no" mameconfig="10">
+	<game name="blueprnt" sourcefile="blueprnt.c">
+		<description>Blue Print (Midway)</description>
+		<year>1982</year>
+		<manufacturer>Zilec Electronics / Bally Midway</manufacturer>
+		<rom name="bp-1.1m" size="4096" crc="b20069a6" sha1="aa0a61c898ec58fc4872a24666f422e1abdc09f3" region="maincpu" offset="0"/>
+		<rom name="bp-2.1n" size="4096" crc="4a30302e" sha1="a3a22b78585cc9677bf03bbfeb20afb05f026075" region="maincpu" offset="1000"/>
+		<rom name="bp-3.1p" size="4096" crc="6866ca07" sha1="a0df14eee9240fad42ceb6f926d34755e8442411" region="maincpu" offset="2000"/>
+		<rom name="bp-4.1r" size="4096" crc="5d3cfac3" sha1="7e6ab8398d799aaf0fcaa0769a827471d8c872e9" region="maincpu" offset="3000"/>
+		<rom name="bp-5.1s" size="4096" crc="a556cac4" sha1="0fe7070c70792d883c29f3d12a33238b5ed8af22" region="maincpu" offset="4000"/>
+		<rom name="snd-1.3u" size="4096" crc="fd38777a" sha1="0ed230e0fa047d3171e7141e5620b4c750b07629" region="audiocpu" offset="0"/>
+		<rom name="snd-2.3v" size="4096" crc="33d5bf5b" sha1="3ac684cd48559cd0eab32f9e7ce3ec6eca88dcd4" region="audiocpu" offset="2000"/>
+		<rom name="bg-1.3c" size="4096" crc="ac2a61bc" sha1="e56708d261648478d1dae4769118546411299e59" region="gfx1" offset="0"/>
+		<rom name="bg-2.3d" size="4096" crc="81fe85d7" sha1="fa637631d25f7499d2325cce77d11e1d624f5e07" region="gfx1" offset="1000"/>
+		<rom name="red.17d" size="4096" crc="a73b6483" sha1="9f7756d032a8ffaa4aa236fc5117f476916986e0" region="gfx2" offset="0"/>
+		<rom name="blue.18d" size="4096" crc="7d622550" sha1="8283debff8253996513148629ec55831e48e8e92" region="gfx2" offset="1000"/>
+		<rom name="green.20d" size="4096" crc="2fcb4f26" sha1="508cb2800737bad0a7dea0789d122b7c802aecfd" region="gfx2" offset="2000"/>
+		<device_ref name="z80"/>
+		<device_ref name="z80"/>
+		<device_ref name="screen"/>
+		<device_ref name="speaker"/>
+		<device_ref name="ay8910"/>
+		<device_ref name="ay8910"/>
+		<chip type="cpu" tag="maincpu" name="Z80" clock="3500000"/>
+		<chip type="cpu" tag="audiocpu" name="Z80" clock="1250000"/>
+		<chip type="audio" tag="mono" name="Speaker"/>
+		<chip type="audio" tag="ay1" name="AY-3-8910A" clock="1250000"/>
+		<chip type="audio" tag="ay2" name="AY-3-8910A" clock="625000"/>
+		<display tag="screen" type="raster" rotate="270" width="256" height="224" refresh="60.000000" />
+		<sound channels="1"/>
+		<input players="2" buttons="1" coins="2" tilt="yes">
+			<control type="joy" ways="8"/>
+		</input>
+		<dipswitch name="Service Mode" tag="P2" mask="4">
+			<dipvalue name="Off" value="0" default="yes"/>
+			<dipvalue name="On" value="4"/>
+		</dipswitch>
+		<dipswitch name="Unused" tag="DILSW1" mask="1">
+			<dipvalue name="Off" value="1" default="yes"/>
+			<dipvalue name="On" value="0"/>
+		</dipswitch>
+		<dipswitch name="Bonus Life" tag="DILSW1" mask="6">
+			<dipvalue name="20K" value="0"/>
+			<dipvalue name="30K" value="2" default="yes"/>
+			<dipvalue name="40K" value="4"/>
+			<dipvalue name="50K" value="6"/>
+		</dipswitch>
+		<dipswitch name="Free Play" tag="DILSW1" mask="8">
+			<dipvalue name="Off" value="0" default="yes"/>
+			<dipvalue name="On" value="8"/>
+		</dipswitch>
+		<dipswitch name="Maze Monster Appears In" tag="DILSW1" mask="16">
+			<dipvalue name="2nd Maze" value="0" default="yes"/>
+			<dipvalue name="3rd Maze" value="16"/>
+		</dipswitch>
+		<dipswitch name="Coin A" tag="DILSW1" mask="32">
+			<dipvalue name="2 Coins/1 Credit" value="32"/>
+			<dipvalue name="1 Coin/1 Credit" value="0" default="yes"/>
+		</dipswitch>
+		<dipswitch name="Coin B" tag="DILSW1" mask="64">
+			<dipvalue name="1 Coin/3 Credits" value="64" default="yes"/>
+			<dipvalue name="1 Coin/5 Credits" value="0"/>
+		</dipswitch>
+		<dipswitch name="Unused" tag="DILSW1" mask="128">
+			<dipvalue name="Off" value="128" default="yes"/>
+			<dipvalue name="On" value="0"/>
+		</dipswitch>
+		<dipswitch name="Lives" tag="DILSW2" mask="3">
+			<dipvalue name="2" value="0"/>
+			<dipvalue name="3" value="1" default="yes"/>
+			<dipvalue name="4" value="2"/>
+			<dipvalue name="5" value="3"/>
+		</dipswitch>
+		<dipswitch name="Unused" tag="DILSW2" mask="4">
+			<dipvalue name="Off" value="4" default="yes"/>
+			<dipvalue name="On" value="0"/>
+		</dipswitch>
+		<dipswitch name="Cabinet" tag="DILSW2" mask="8">
+			<dipvalue name="Upright" value="0" default="yes"/>
+			<dipvalue name="Cocktail" value="8"/>
+		</dipswitch>
+		<dipswitch name="Difficulty" tag="DILSW2" mask="48">
+			<dipvalue name="Level 1" value="0"/>
+			<dipvalue name="Level 2" value="16" default="yes"/>
+			<dipvalue name="Level 3" value="32"/>
+			<dipvalue name="Level 4" value="48"/>
+		</dipswitch>
+		<dipswitch name="Unused" tag="DILSW2" mask="64">
+			<dipvalue name="Off" value="64" default="yes"/>
+			<dipvalue name="On" value="0"/>
+		</dipswitch>
+		<dipswitch name="Unused" tag="DILSW2" mask="128">
+			<dipvalue name="Off" value="128" default="yes"/>
+			<dipvalue name="On" value="0"/>
+		</dipswitch>
+		<port tag=":P1">
+		</port>
+		<port tag=":P2">
+		</port>
+		<port tag=":DILSW1">
+		</port>
+		<port tag=":DILSW2">
+		</port>
+		<driver status="good" emulation="good" color="good" sound="good" graphic="good" savestate="supported" palettesize="520"/>
+	</game>
+	<game name="z80" sourcefile="src/emu/cpu/z80/z80.c" isdevice="yes" runnable="no">
+		<description>Z80</description>
+	</game>
+	<game name="screen" sourcefile="src/emu/screen.c" isdevice="yes" runnable="no">
+		<description>Video Screen</description>
+	</game>
+	<game name="speaker" sourcefile="src/emu/speaker.c" isdevice="yes" runnable="no">
+		<description>Speaker</description>
+		<sound channels="1"/>
+	</game>
+	<game name="ay8910" sourcefile="src/emu/sound/ay8910.c" isdevice="yes" runnable="no">
+		<description>AY-3-8910A</description>
+		<sound channels="0"/>
+	</game>
+</mame>
