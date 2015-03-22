@@ -7,25 +7,47 @@
 
 """Hack assembler
 
-HA is a tool for injecting assembler source into arcade game ROMs.
+Hack Assembler (ha) is a tool for patching arcade ROMs
+programmatically, from source code. This allows patches to be written
+in assembler, and preseves the source, which allows for greater
+understanding and quick development.
 
-# Layout
+To use all the features of ha, you will need MAME.
 
-Patches have a specific layout.
+## Features
 
- + sample
-  \
-   + game.xml
-   + roms
-   |\
-   | + original/sample
-   | + patched/sample
-   |
-   + patch
-    \
-     + maincpu
-      \
-       + 0000-name.s
+ - Maintain patches as assembler source, rather than binary patches.
+ - Assembles the patch and patches the ROM in one step.
+ - Discovers the ROM files to patch, based on filename - fully
+   automatic.
+ - Dev mode assembles, patches, and runs the patched ROM in MAME, all
+   in one command.
+
+## Layout
+
+Patches must have a specific layout. `ha init <romname>` will create
+it for you.
+
+```
++ <root>
+ \
+  + game.xml   - This is the MAME XML info dump for the game.
+  + roms
+  |\
+  | + original - Original ROMs for the game being patched.
+  | + patched  - Patched ROMs. ha will create these.
+  |
+  + patch      - Patch source directory
+   \
+    + maincpu  - Patches for the CPU region.
+    |\
+    | + 0000-desc.s  - This patch applies at 0x0000
+    | + 4000-other.s - This patch applies at 0x4000
+    + soundcpu - You can patch ROMs in other regions, too.
+```
+
+Based on the region and prefix in the source file name, ha will
+determine the correct ROM to patch using `game.xml`.
 """
 
 import argparse
@@ -35,17 +57,20 @@ import zipfile
 import shutil
 import subprocess
 import xml.etree.ElementTree as ET
-from contextlib import closing
+from contextlib import closing, contextmanager
 from glob import glob
 from pprint import pprint
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
-MAMEDIR = "/Users/ieure/Dropbox/arcade/mame0152-64bit"
-MAME = MAMEDIR + "/mame64"
+MAME_DIR = None
+MAME_BIN = None
+MAME = None
 LOG = logging.getLogger('ha')
 
 class Game(object):
+
+    """A Python representation of a MAME game XML."""
 
     def __init__(self, xml):
         self.game = xml.getroot().find('game')
@@ -85,23 +110,49 @@ class Game(object):
         return cls(ET.parse(file_))
 
 
+class Assembler(object):
+
+    """An interface to assemblers for different CPUs."""
+
+    def __init__(self, cpu, source):
+        self.cpu = cpu
+        self.source = source
+        self.dest = source.rsplit('.', 1)[0] + ".bin"
+
+    @classmethod
+    def new(cls, cpu, source):
+        if cpu.lower() == "z80":
+            return AssembleZ80(cpu, source)
+        elif cpu == "6502":
+            return Assemble6502(cpu, source)
+        else:
+            raise Exception("No assembler defined for %s" % cpu)
+
+
+class AssembleZ80(Assembler):
+
+    """Z80 Assembler."""
+
+    def assemble(self):
+        subprocess.call(["z80asm", "-I", os.path.dirname(self.source),
+                         "-o", self.dest, self.source])
+
+
+class Assemble6502(Assembler):
+
+    """6502 Assembler."""
+
+    def assemble(self):
+        subprocess.call(["asm6", self.source, self.dest])
+
+
 def chain(*cmds):
-    """Chain commands"""
-    return reduce(lambda ret, f: f() if ret == 0 else ret,
-                  cmds, 0)
+    """Chain commands together.
 
-
-def assemble_file(cpu, file_):
-    if cpu == 'Z80':
-        return assemble_z80(file_)
-
-    raise Exception("No assembler defined for `%s'" % cpu)
-
-
-def assemble_z80(file_):
-    out = file_.rsplit('.', 1)[0] + ".bin"
-    subprocess.call(["z80asm", "-I", os.path.dirname(file_),
-                     "-o", out, file_])
+       If any command returns a non-zero exit status, abort the chain.
+    """
+    return lambda: reduce(lambda ret, f: f() if ret == 0 else ret,
+                          cmds, 0)
 
 
 def assemble_patch():
@@ -115,7 +166,7 @@ def assemble_patch():
 
         for patch in glob('%s/*-*.s' % pdir):
             LOG.debug("Assembling %s" % patch)
-            assemble_file(cpu, patch)
+            Assembler.new(cpu, patch).assemble()
 
     return 0
 
@@ -181,56 +232,82 @@ def run_orig():
                      "-rompath", "roms/original",
                      game.name])
 
+@contextmanager
+def ignore_exists():
+    try:
+        yield
+    except OSError, e:
+        pass
 
-def init(game):
+
+def init(game, *dir):
     """Initialize a patch."""
-    dir = "%s/patch" % game
-    os.makedirs(dir)
+    base = dir and dir[0] or game
 
-    with open('%s/game.xml' % game, 'w') as fd:
+    with ignore_exists():
+        os.makedirs(base)
+
+    with open('%s/game.xml' % base, 'w') as fd:
         res = subprocess.call([MAME, "-listxml", game], stdout=fd)
         if res != 0:
             return res
 
-    gm = Game.new('%s/game.xml' % game)
+    gm = Game.new('%s/game.xml' % base)
 
     # Add regions
+    dirs = []
     for region in gm.regions():
-        os.mkdir("%s/patch/%s" % (game, region))
+        dirs.append("patch/%s" % region)
 
-    # Extract ROMs
-    os.makedirs("%s/roms/original/%s" % (game, game))
-    os.makedirs("%s/roms/patched/%s" % (game, game))
+    dirs.append("roms/original/%s" % game)
+    dirs.append("roms/patched/%s" % game)
 
+    # Build the directory tree
+    for dir in dirs:
+        with ignore_exists():
+            os.makedirs("%s/%s" % (base, dir))
 
     # ZIPs to look for
     for rom in gm.related_roms():
-        zip = '%s/roms/%s.zip' % (MAMEDIR, rom)
+        zip = '%s/roms/%s.zip' % (MAME_DIR, rom)
         if os.path.isfile(zip):
             with closing(zipfile.ZipFile(zip, 'r')) as zf:
-                zf.extractall('%s/roms/original/%s' % (game, game))
+                zf.extractall('%s/roms/original/%s' % (base, game))
 
     return 0
 
 
-def main(cmd, *args):
-    if cmd == 'init':
-        return init(*args)
-    elif cmd == 'dev':
-        return chain(assemble_patch,
-                     patch_roms,
-                     run)
-    elif cmd == 'run':
-        return run()
-    elif cmd == 'orig':
-        return run_orig()
-    elif cmd == 'asm':
-        return assemble_patch()
-    elif cmd == 'patch':
-        return patch_roms()
-    elif cmd == 'ap':
-        return chain(assemble_patch, patch_roms)
-    return -1
+COMMANDS = {'init': init,
+            'dev': chain(assemble_patch, patch_roms, run),
+            'asm': assemble_patch,
+            'patch': patch_roms,
+            'ap': chain(assemble_patch, patch_roms)
+}
+
+def main():
+    global MAME_DIR
+    global MAME_BIN
+    global MAME
+    parser = argparse.ArgumentParser(description="Hack Assembler")
+    parser.add_argument('--mame-dir', dest='mame_dir',
+                        default=os.getenv('MAME_DIR', '.'),
+                        help='MAME root directory')
+    parser.add_argument('--mame-bin',
+                        default='mame64',
+                        help='MAME binary')
+
+    parser.add_argument('cmd', choices=COMMANDS.keys(),
+                        help="Command.")
+    parser.add_argument('rest', nargs=argparse.REMAINDER)
+
+    args = parser.parse_args()
+
+    MAME_DIR = os.path.expanduser(args.mame_dir)
+    MAME_BIN = args.mame_bin
+    MAME = '%s/%s' % (MAME_DIR, MAME_BIN)
+
+    return COMMANDS[args.cmd](*args.rest)
+
 
 if __name__ == '__main__':
-    sys.exit(main(*sys.argv[1:]))
+    sys.exit(main())
