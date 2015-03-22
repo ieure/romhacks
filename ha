@@ -68,6 +68,9 @@ MAME_BIN = None
 MAME = None
 LOG = logging.getLogger('ha')
 
+class HAException(Exception):
+    pass
+
 class Game(object):
 
     """A Python representation of a MAME game XML."""
@@ -219,6 +222,7 @@ def patch_roms():
 
 def run():
     """Run the current version of the patch."""
+    require_mame()
     game = Game.new('game.xml')
     subprocess.call([MAME, "-debug", "-window",
                      "-rompath", "roms/patched",
@@ -227,6 +231,7 @@ def run():
 
 def run_orig():
     """Run the original game."""
+    require_mame()
     game = Game.new('game.xml')
     subprocess.call([MAME, "-debug", "-window",
                      "-rompath", "roms/original",
@@ -240,9 +245,18 @@ def ignore_exists():
         pass
 
 
+def require_mame():
+    if MAME is None:
+        raise HAException("You must set MAME_DIR.")
+    if not os.path.exists(MAME):
+        raise HAException("MAME path %s doesn't exist" % MAME)
+
+
 def init(game, *dir):
     """Initialize a patch."""
     base = dir and dir[0] or game
+
+    require_mame()
 
     with ignore_exists():
         os.makedirs(base)
@@ -306,7 +320,11 @@ def main():
     MAME_BIN = args.mame_bin
     MAME = '%s/%s' % (MAME_DIR, MAME_BIN)
 
-    return COMMANDS[args.cmd](*args.rest)
+    try:
+        return COMMANDS[args.cmd](*args.rest)
+    except HAException, e:
+        print e
+        return -2
 
 
 if __name__ == '__main__':
