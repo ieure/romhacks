@@ -170,10 +170,10 @@ def run():
 
 def run_orig():
     """Run the original game."""
-    game = os.path.basename(os.getcwd())
+    game = Game.new('game.xml')
     subprocess.call([MAME, "-debug", "-window",
                      "-rompath", "roms/original",
-                     game])
+                     game.name])
 
 
 def init(game):
