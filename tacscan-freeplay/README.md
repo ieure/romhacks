@@ -47,6 +47,7 @@ to be applied.
  - Inserting a coin will add credits even when in freeplay, which
    could prevent the attract mode from running. This is probably not a
    huge deal, but would be nice to fix.
+ - It doesnt (yet) work on real hardware.
 
 ## Copyright
 
