@@ -1,0 +1,291 @@
+<?xml version="1.0"?>
+<!DOCTYPE mame [
+<!ELEMENT mame (game+)>
+	<!ATTLIST mame build CDATA #IMPLIED>
+	<!ATTLIST mame debug (yes|no) "no">
+	<!ATTLIST mame mameconfig CDATA #REQUIRED>
+	<!ELEMENT game (description, year?, manufacturer?, biosset*, rom*, disk*, device_ref*, sample*, chip*, display*, sound?, input?, dipswitch*, configuration*, adjuster*, driver?, device*, slot*, softwarelist*, ramoption*)>
+		<!ATTLIST game name CDATA #REQUIRED>
+		<!ATTLIST game sourcefile CDATA #IMPLIED>
+		<!ATTLIST game isbios (yes|no) "no">
+		<!ATTLIST game isdevice (yes|no) "no">
+		<!ATTLIST game ismechanical (yes|no) "no">
+		<!ATTLIST game runnable (yes|no) "yes">
+		<!ATTLIST game cloneof CDATA #IMPLIED>
+		<!ATTLIST game romof CDATA #IMPLIED>
+		<!ATTLIST game sampleof CDATA #IMPLIED>
+		<!ELEMENT description (#PCDATA)>
+		<!ELEMENT year (#PCDATA)>
+		<!ELEMENT manufacturer (#PCDATA)>
+		<!ELEMENT biosset EMPTY>
+			<!ATTLIST biosset name CDATA #REQUIRED>
+			<!ATTLIST biosset description CDATA #REQUIRED>
+			<!ATTLIST biosset default (yes|no) "no">
+		<!ELEMENT rom EMPTY>
+			<!ATTLIST rom name CDATA #REQUIRED>
+			<!ATTLIST rom bios CDATA #IMPLIED>
+			<!ATTLIST rom size CDATA #REQUIRED>
+			<!ATTLIST rom crc CDATA #IMPLIED>
+			<!ATTLIST rom sha1 CDATA #IMPLIED>
+			<!ATTLIST rom merge CDATA #IMPLIED>
+			<!ATTLIST rom region CDATA #IMPLIED>
+			<!ATTLIST rom offset CDATA #IMPLIED>
+			<!ATTLIST rom status (baddump|nodump|good) "good">
+			<!ATTLIST rom optional (yes|no) "no">
+		<!ELEMENT disk EMPTY>
+			<!ATTLIST disk name CDATA #REQUIRED>
+			<!ATTLIST disk sha1 CDATA #IMPLIED>
+			<!ATTLIST disk merge CDATA #IMPLIED>
+			<!ATTLIST disk region CDATA #IMPLIED>
+			<!ATTLIST disk index CDATA #IMPLIED>
+			<!ATTLIST disk writable (yes|no) "no">
+			<!ATTLIST disk status (baddump|nodump|good) "good">
+			<!ATTLIST disk optional (yes|no) "no">
+		<!ELEMENT device_ref EMPTY>
+			<!ATTLIST device_ref name CDATA #REQUIRED>
+		<!ELEMENT sample EMPTY>
+			<!ATTLIST sample name CDATA #REQUIRED>
+		<!ELEMENT chip EMPTY>
+			<!ATTLIST chip name CDATA #REQUIRED>
+			<!ATTLIST chip tag CDATA #IMPLIED>
+			<!ATTLIST chip type (cpu|audio) #REQUIRED>
+			<!ATTLIST chip clock CDATA #IMPLIED>
+		<!ELEMENT display EMPTY>
+			<!ATTLIST display tag CDATA #IMPLIED>
+			<!ATTLIST display type (raster|vector|lcd|unknown) #REQUIRED>
+			<!ATTLIST display rotate (0|90|180|270) #REQUIRED>
+			<!ATTLIST display flipx (yes|no) "no">
+			<!ATTLIST display width CDATA #IMPLIED>
+			<!ATTLIST display height CDATA #IMPLIED>
+			<!ATTLIST display refresh CDATA #REQUIRED>
+			<!ATTLIST display pixclock CDATA #IMPLIED>
+			<!ATTLIST display htotal CDATA #IMPLIED>
+			<!ATTLIST display hbend CDATA #IMPLIED>
+			<!ATTLIST display hbstart CDATA #IMPLIED>
+			<!ATTLIST display vtotal CDATA #IMPLIED>
+			<!ATTLIST display vbend CDATA #IMPLIED>
+			<!ATTLIST display vbstart CDATA #IMPLIED>
+		<!ELEMENT sound EMPTY>
+			<!ATTLIST sound channels CDATA #REQUIRED>
+		<!ELEMENT input (control*)>
+			<!ATTLIST input service (yes|no) "no">
+			<!ATTLIST input tilt (yes|no) "no">
+			<!ATTLIST input players CDATA #REQUIRED>
+			<!ATTLIST input buttons CDATA #IMPLIED>
+			<!ATTLIST input coins CDATA #IMPLIED>
+			<!ELEMENT control EMPTY>
+				<!ATTLIST control type CDATA #REQUIRED>
+				<!ATTLIST control minimum CDATA #IMPLIED>
+				<!ATTLIST control maximum CDATA #IMPLIED>
+				<!ATTLIST control sensitivity CDATA #IMPLIED>
+				<!ATTLIST control keydelta CDATA #IMPLIED>
+				<!ATTLIST control reverse (yes|no) "no">
+				<!ATTLIST control ways CDATA #IMPLIED>
+				<!ATTLIST control ways2 CDATA #IMPLIED>
+				<!ATTLIST control ways3 CDATA #IMPLIED>
+		<!ELEMENT dipswitch (dipvalue*)>
+			<!ATTLIST dipswitch name CDATA #REQUIRED>
+			<!ATTLIST dipswitch tag CDATA #REQUIRED>
+			<!ATTLIST dipswitch mask CDATA #REQUIRED>
+			<!ELEMENT dipvalue EMPTY>
+				<!ATTLIST dipvalue name CDATA #REQUIRED>
+				<!ATTLIST dipvalue value CDATA #REQUIRED>
+				<!ATTLIST dipvalue default (yes|no) "no">
+		<!ELEMENT configuration (confsetting*)>
+			<!ATTLIST configuration name CDATA #REQUIRED>
+			<!ATTLIST configuration tag CDATA #REQUIRED>
+			<!ATTLIST configuration mask CDATA #REQUIRED>
+			<!ELEMENT confsetting EMPTY>
+				<!ATTLIST confsetting name CDATA #REQUIRED>
+				<!ATTLIST confsetting value CDATA #REQUIRED>
+				<!ATTLIST confsetting default (yes|no) "no">
+		<!ELEMENT port (portbit*)>
+			<!ATTLIST port tag CDATA #REQUIRED>
+			<!ELEMENT analog EMPTY>
+				<!ATTLIST analog mask CDATA #REQUIRED>
+		<!ELEMENT adjuster EMPTY>
+			<!ATTLIST adjuster name CDATA #REQUIRED>
+			<!ATTLIST adjuster default CDATA #REQUIRED>
+		<!ELEMENT driver EMPTY>
+			<!ATTLIST driver status (good|imperfect|preliminary) #REQUIRED>
+			<!ATTLIST driver emulation (good|imperfect|preliminary) #REQUIRED>
+			<!ATTLIST driver color (good|imperfect|preliminary) #REQUIRED>
+			<!ATTLIST driver sound (good|imperfect|preliminary) #REQUIRED>
+			<!ATTLIST driver graphic (good|imperfect|preliminary) #REQUIRED>
+			<!ATTLIST driver cocktail (good|imperfect|preliminary) #IMPLIED>
+			<!ATTLIST driver protection (good|imperfect|preliminary) #IMPLIED>
+			<!ATTLIST driver savestate (supported|unsupported) #REQUIRED>
+			<!ATTLIST driver palettesize CDATA #REQUIRED>
+		<!ELEMENT device (instance*, extension*)>
+			<!ATTLIST device type CDATA #REQUIRED>
+			<!ATTLIST device tag CDATA #IMPLIED>
+			<!ATTLIST device mandatory CDATA #IMPLIED>
+			<!ATTLIST device interface CDATA #IMPLIED>
+			<!ELEMENT instance EMPTY>
+				<!ATTLIST instance name CDATA #REQUIRED>
+				<!ATTLIST instance briefname CDATA #REQUIRED>
+			<!ELEMENT extension EMPTY>
+				<!ATTLIST extension name CDATA #REQUIRED>
+		<!ELEMENT slot (slotoption*)>
+			<!ATTLIST slot name CDATA #REQUIRED>
+			<!ELEMENT slotoption EMPTY>
+				<!ATTLIST slotoption name CDATA #REQUIRED>
+				<!ATTLIST slotoption devname CDATA #REQUIRED>
+				<!ATTLIST slotoption default (yes|no) "no">
+		<!ELEMENT softwarelist EMPTY>
+			<!ATTLIST softwarelist name CDATA #REQUIRED>
+			<!ATTLIST softwarelist status (original|compatible) #REQUIRED>
+			<!ATTLIST softwarelist filter CDATA #IMPLIED>
+		<!ELEMENT ramoption (#PCDATA)>
+			<!ATTLIST ramoption default CDATA #IMPLIED>
+]>
+
+<mame build="0.152 (Dec 25 2013)" debug="no" mameconfig="10">
+	<game name="tacscan" sourcefile="segag80v.c">
+		<description>Tac/Scan</description>
+		<year>1982</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="1711a.cpu-u25" size="2048" crc="0da13158" sha1="256c5441a4841441501c9b7bcf09e0e99e8dd671" region="maincpu" offset="0"/>
+		<rom name="1670c.prom-u1" size="2048" crc="98de6fd5" sha1="f22c215d7558e00366fec5092abb51c670468f8c" region="maincpu" offset="800"/>
+		<rom name="1671a.prom-u2" size="2048" crc="dc400074" sha1="70093ef56e0784173a06da1ac781bb9d8c4e7fc5" region="maincpu" offset="1000"/>
+		<rom name="1672a.prom-u3" size="2048" crc="2caf6f7e" sha1="200119260f78bb1c5389707b3ceedfbc1ae43549" region="maincpu" offset="1800"/>
+		<rom name="1673a.prom-u4" size="2048" crc="1495ce3d" sha1="3189f8061961d90a52339c855c06e81f4537fb2b" region="maincpu" offset="2000"/>
+		<rom name="1674a.prom-u5" size="2048" crc="ab7fc5d9" sha1="b2d9241d83d175ead4da36d7311a41a5f972e06a" region="maincpu" offset="2800"/>
+		<rom name="1675a.prom-u6" size="2048" crc="cf5e5016" sha1="78a3f1e4a905515330d4737ac38576ac6e0d8611" region="maincpu" offset="3000"/>
+		<rom name="1676a.prom-u7" size="2048" crc="b61a3ab3" sha1="0f4ef5c7fe299ad20fa4637260282a733f1cf461" region="maincpu" offset="3800"/>
+		<rom name="1677a.prom-u8" size="2048" crc="bc0273b1" sha1="8e8d8830f17b9fa6d45d98108ca02d90c29de574" region="maincpu" offset="4000"/>
+		<rom name="1678b.prom-u9" size="2048" crc="7894da98" sha1="2de7c121ad847e51a10cb1b81aec84cc44a3d04c" region="maincpu" offset="4800"/>
+		<rom name="1679a.prom-u10" size="2048" crc="db865654" sha1="db4d5675b53ff2bbaf70090fd064e98862f4ad33" region="maincpu" offset="5000"/>
+		<rom name="1680a.prom-u11" size="2048" crc="2c2454de" sha1="74101806439c9faeba88ffe573fa4f93ffa0ba3c" region="maincpu" offset="5800"/>
+		<rom name="1681a.prom-u12" size="2048" crc="77028885" sha1="bc981620ebbfbe4e32b3b4d00504475634454c57" region="maincpu" offset="6000"/>
+		<rom name="1682a.prom-u13" size="2048" crc="babe5cf1" sha1="26219b7a26f818fee2fe579ec6fb0b16c6bf056f" region="maincpu" offset="6800"/>
+		<rom name="1683a.prom-u14" size="2048" crc="1b98b618" sha1="19854cb2741ba37c11ae6d429fa6c17ff930f5e5" region="maincpu" offset="7000"/>
+		<rom name="1684a.prom-u15" size="2048" crc="cb3ded3b" sha1="f1e886f4f71b0f6f2c11fb8b4921c3452fc9b2c0" region="maincpu" offset="7800"/>
+		<rom name="1685a.prom-u16" size="2048" crc="43016a79" sha1="ee22c1fe0c8df90d9215175104f8a796c3d2aed3" region="maincpu" offset="8000"/>
+		<rom name="1686a.prom-u17" size="2048" crc="a4397772" sha1="cadc95b869f5bf5dba7f03dfe5ae64a50899cced" region="maincpu" offset="8800"/>
+		<rom name="1687a.prom-u18" size="2048" crc="002f3bc4" sha1="7f3795a05d5651c90cdcd4d00c46d05178b433ea" region="maincpu" offset="9000"/>
+		<rom name="1688a.prom-u19" size="2048" crc="0326d87a" sha1="3a5ea4526db417b9e00b24b019c1c6016773c9e7" region="maincpu" offset="9800"/>
+		<rom name="1709a.prom-u20" size="2048" crc="f35ed1ec" sha1="dce95a862af0c6b67fb76b99fee0523d53b7551c" region="maincpu" offset="a000"/>
+		<rom name="1710a.prom-u21" size="2048" crc="6203be22" sha1="89731c7c88d0125a11368d707f566eb53c783266" region="maincpu" offset="a800"/>
+		<rom name="s-c.xyt-u39" size="1024" crc="56484d19" sha1="61f43126fdcfc230638ed47085ae037a098e6781" region="proms" offset="0"/>
+		<rom name="pr-82.cpu-u15" size="32" crc="c609b79e" sha1="49dbcbb607079a182d7eb396c0da097166ea91c9" region="proms" offset="400"/>
+		<device_ref name="z80"/>
+		<device_ref name="screen"/>
+		<device_ref name="vector_device"/>
+		<device_ref name="speaker"/>
+		<device_ref name="segausb"/>
+		<device_ref name="i8035"/>
+		<device_ref name="timer"/>
+		<chip type="cpu" tag="maincpu" name="Z80" clock="4000000"/>
+		<chip type="cpu" tag="usbsnd:ourcpu" name="I8035" clock="6000000"/>
+		<chip type="audio" tag="mono" name="Speaker"/>
+		<chip type="audio" tag="usbsnd" name="Sega Universal Sound Board"/>
+		<display tag="screen" type="vector" rotate="270" flipx="yes" refresh="40.000000" />
+		<sound channels="1"/>
+		<input players="1" buttons="2" coins="2" service="yes">
+			<control type="dial" minimum="0" maximum="255" sensitivity="100" keydelta="10"/>
+		</input>
+		<dipswitch name="Cabinet" tag="D3D2" mask="1">
+			<dipvalue name="Upright" value="1" default="yes"/>
+			<dipvalue name="Cocktail" value="0"/>
+		</dipswitch>
+		<dipswitch name="Demo Sounds" tag="D3D2" mask="2">
+			<dipvalue name="Off" value="2"/>
+			<dipvalue name="On" value="0" default="yes"/>
+		</dipswitch>
+		<dipswitch name="Number of Ships" tag="D3D2" mask="12">
+			<dipvalue name="2" value="0"/>
+			<dipvalue name="4" value="4"/>
+			<dipvalue name="6" value="8"/>
+			<dipvalue name="8" value="12" default="yes"/>
+		</dipswitch>
+		<dipswitch name="Difficulty" tag="D3D2" mask="48">
+			<dipvalue name="Easy" value="0" default="yes"/>
+			<dipvalue name="Normal" value="16"/>
+			<dipvalue name="Hard" value="32"/>
+			<dipvalue name="Very Hard" value="48"/>
+		</dipswitch>
+		<dipswitch name="Bonus Life" tag="D3D2" mask="192">
+			<dipvalue name="None" value="0"/>
+			<dipvalue name="10000" value="192"/>
+			<dipvalue name="20000" value="128" default="yes"/>
+			<dipvalue name="30000" value="64"/>
+		</dipswitch>
+		<dipswitch name="Coin A" tag="D1D0" mask="15">
+			<dipvalue name="4 Coins/1 Credit" value="0"/>
+			<dipvalue name="3 Coins/1 Credit" value="1"/>
+			<dipvalue name="2 Coins/1 Credit 5/3 6/4" value="9"/>
+			<dipvalue name="2 Coins/1 Credit 4/3" value="10"/>
+			<dipvalue name="2 Coins/1 Credit" value="2"/>
+			<dipvalue name="1 Coin/1 Credit" value="3" default="yes"/>
+			<dipvalue name="1 Coin/1 Credit 5/6" value="11"/>
+			<dipvalue name="1 Coin/1 Credit 4/5" value="12"/>
+			<dipvalue name="1 Coin/1 Credit 2/3" value="13"/>
+			<dipvalue name="1 Coin/2 Credits" value="4"/>
+			<dipvalue name="1 Coin/2 Credits 4/9" value="15"/>
+			<dipvalue name="1 Coin/2 Credits 5/11" value="14"/>
+			<dipvalue name="1 Coin/3 Credits" value="5"/>
+			<dipvalue name="1 Coin/4 Credits" value="6"/>
+			<dipvalue name="1 Coin/5 Credits" value="7"/>
+			<dipvalue name="1 Coin/6 Credits" value="8"/>
+		</dipswitch>
+		<dipswitch name="Coin B" tag="D1D0" mask="240">
+			<dipvalue name="4 Coins/1 Credit" value="0"/>
+			<dipvalue name="3 Coins/1 Credit" value="16"/>
+			<dipvalue name="2 Coins/1 Credit 5/3 6/4" value="144"/>
+			<dipvalue name="2 Coins/1 Credit 4/3" value="160"/>
+			<dipvalue name="2 Coins/1 Credit" value="32"/>
+			<dipvalue name="1 Coin/1 Credit" value="48" default="yes"/>
+			<dipvalue name="1 Coin/1 Credit 5/6" value="176"/>
+			<dipvalue name="1 Coin/1 Credit 4/5" value="192"/>
+			<dipvalue name="1 Coin/1 Credit 2/3" value="208"/>
+			<dipvalue name="1 Coin/2 Credits" value="64"/>
+			<dipvalue name="1 Coin/2 Credits 4/9" value="240"/>
+			<dipvalue name="1 Coin/2 Credits 5/11" value="224"/>
+			<dipvalue name="1 Coin/3 Credits" value="80"/>
+			<dipvalue name="1 Coin/4 Credits" value="96"/>
+			<dipvalue name="1 Coin/5 Credits" value="112"/>
+			<dipvalue name="1 Coin/6 Credits" value="128"/>
+		</dipswitch>
+		<port tag=":D7D6">
+		</port>
+		<port tag=":D5D4">
+		</port>
+		<port tag=":D3D2">
+		</port>
+		<port tag=":D1D0">
+		</port>
+		<port tag=":FC">
+		</port>
+		<port tag=":SERVICESW">
+		</port>
+		<port tag=":SPINNER">
+			<analog mask="255"/>
+		</port>
+		<driver status="imperfect" emulation="good" color="good" sound="imperfect" graphic="good" savestate="unsupported" palettesize="0"/>
+	</game>
+	<game name="z80" sourcefile="src/emu/cpu/z80/z80.c" isdevice="yes" runnable="no">
+		<description>Z80</description>
+	</game>
+	<game name="screen" sourcefile="src/emu/screen.c" isdevice="yes" runnable="no">
+		<description>Video Screen</description>
+	</game>
+	<game name="vector_device" sourcefile="src/emu/video/vector.c" isdevice="yes" runnable="no">
+		<description>VECTOR</description>
+	</game>
+	<game name="speaker" sourcefile="src/emu/speaker.c" isdevice="yes" runnable="no">
+		<description>Speaker</description>
+		<sound channels="1"/>
+	</game>
+	<game name="segausb" sourcefile="src/mame/audio/segasnd.c" isdevice="yes" runnable="no">
+		<description>Sega Universal Sound Board</description>
+		<chip type="cpu" tag=":ourcpu" name="I8035" clock="6000000"/>
+		<sound channels="0"/>
+	</game>
+	<game name="i8035" sourcefile="src/emu/cpu/mcs48/mcs48.c" isdevice="yes" runnable="no">
+		<description>I8035</description>
+	</game>
+	<game name="timer" sourcefile="src/emu/timer.c" isdevice="yes" runnable="no">
+		<description>Timer</description>
+	</game>
+</mame>
