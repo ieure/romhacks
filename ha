@@ -85,6 +85,12 @@ class Game(object):
         return cls(ET.parse(file_))
 
 
+def chain(*cmds):
+    """Chain commands"""
+    return reduce(lambda ret, f: f() if ret == 0 else ret,
+                  cmds, 0)
+
+
 def assemble_file(cpu, file_):
     if cpu == 'Z80':
         return assemble_z80(file_)
@@ -211,9 +217,9 @@ def main(cmd, *args):
     if cmd == 'init':
         return init(*args)
     elif cmd == 'dev':
-        assemble_patch()
-        patch_roms()
-        run()
+        return chain(assemble_patch,
+                     patch_roms,
+                     run)
     elif cmd == 'run':
         return run()
     elif cmd == 'orig':
@@ -223,8 +229,7 @@ def main(cmd, *args):
     elif cmd == 'patch':
         return patch_roms()
     elif cmd == 'ap':
-        assemble_patch()
-        return patch_roms()
+        return chain(assemble_patch, patch_roms)
     return -1
 
 if __name__ == '__main__':
