@@ -1,4 +1,4 @@
-# Blue Print freeplay with attract mode v1
+# Blue Print freeplay with attract mode v2
 
 ## Installation
 
@@ -44,7 +44,19 @@ run.
 
 ## Source
 
-[The source code is freely available](patch.s).
+[The source code is freely available](patch/maincpu).
+
+## Changelog
+
+### v1
+
+Initial version.
+
+### v2
+
+Fixes an issue where pressing a start button would restart the game
+while playing. This also caused the game to reset if the button was
+held down.
 
 ## Copyright
 
