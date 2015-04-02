@@ -126,7 +126,7 @@ class Assembler(object):
     def new(cls, cpu, source):
         if cpu.lower() == "z80":
             return AssembleZ80(cpu, source)
-        elif cpu == "6502":
+        elif cpu == "M6502":
             return Assemble6502(cpu, source)
         else:
             raise Exception("No assembler defined for %s" % cpu)
