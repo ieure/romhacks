@@ -219,6 +219,8 @@ def patch_roms():
     for fd in fds.itervalues():
         fd.close()
 
+    return 0
+
 
 def run():
     """Run the current version of the patch."""
@@ -226,6 +228,14 @@ def run():
     game = Game.new('game.xml')
     subprocess.call([MAME, "-debug", "-window",
                      "-rompath", "roms/patched",
+                     game.name])
+
+
+def play():
+    """Run the current version of the patch."""
+    require_mame()
+    game = Game.new('game.xml')
+    subprocess.call([MAME, "-rompath", "roms/patched",
                      game.name])
 
 
@@ -295,7 +305,10 @@ COMMANDS = {'init': init,
             'dev': chain(assemble_patch, patch_roms, run),
             'asm': assemble_patch,
             'patch': patch_roms,
-            'ap': chain(assemble_patch, patch_roms)
+            'ap': chain(assemble_patch, patch_roms),
+            'run': run,
+            'orig': run_orig,
+            'play': play
 }
 
 def main():
