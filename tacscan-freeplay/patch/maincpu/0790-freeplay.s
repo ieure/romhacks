@@ -5,7 +5,6 @@
 include 'symbols.s'
 
 org freeplay
-        DI
         PUSH AF
 
 ;;; Game already playing?
@@ -45,11 +44,10 @@ cont:
         LD BC, credit2
         LD (BC), A
         POP BC
-        EI
+        POP AF
         JP start
 
 endloop:
         POP BC
 end:    POP AF
-        EI
         JP scancoin
