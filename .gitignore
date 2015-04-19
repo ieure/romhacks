@@ -1,2 +1,6 @@
 */roms/original
 */patch/*/*.bin
+/lib
+/bin
+/include
+/.Python
