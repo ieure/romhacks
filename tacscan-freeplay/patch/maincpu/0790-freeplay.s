@@ -21,7 +21,7 @@ org freeplay
 
 ;; Check dips
         PUSH BC
-        LD B, A
+        LD B, A                 ; Save switch state
         LD C, firstdip          ; DIPs SW2:4/8
 loop:   IN A, (C)               ; Read DIPs
         CPL
@@ -33,11 +33,11 @@ loop:   IN A, (C)               ; Read DIPs
         JR NZ, loop
 
         ;; Add credits & start
-        LD A, B                 ; Restore credit count
+        LD A, B                 ; Restore switch state
         XOR $03                 ; Were *both* buttons pressed?!
-        LD A, B                 ; XOR changes A, reset
         JP NZ, cont             ; No
-        LD A, $02               ; Yes, cap at two credits.
+        LD A, B                 ; XOR changes A, reload
+        DEC A                   ; Cap two credits.
 cont:
         LD BC, credit1          ; LD ($C80B), A doesnt work, why?
         LD (BC), A
