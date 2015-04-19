@@ -23,12 +23,11 @@ coin inputs, the patch:
  - Reads the start buttons. The A register is loaded from I/O port
    $FC, which will cause $01 for a 1P start button actuation, or $02
    for a 2P start to be loaded into the accumulator. If no buttons
-   were pressed, control is returned to the game.
+   were pressed, control is returned.
  - Reads the DIP switches. If the DIPs are not set for 4 coin/1
    credit, control is once again returned to $0069. Otherwise, the
-   credit counts at $C80B and $CB0F are loaded with the contents of
-   the accumulator, which will be the correct number of credits for a
-   1- or 2-player game.
+   credit counts at $C80B and $CB0F are loaded with $01 for a 1P game
+   or $02 for 2P.
 
 Control is then passed to $0127, which is the game start screen,
 normally called when there are credits on the machine. This code
@@ -37,17 +36,14 @@ the patch, and begins the game.
 
 ## Source
 
-[The source code is freely available](patch).
+[The source code is freely available](patch/). You can apply the patch
+to ROM images with [hack assembler](../ha).
 
-Each file is prefixed with the location in memory where the patch is
-to be applied.
 
 ## Issues/Enhancements
 
- - Inserting a coin will add credits even when in freeplay, which
-   could prevent the attract mode from running. This is probably not a
-   huge deal, but would be nice to fix.
- - It doesnt (yet) work on real hardware.
+These are
+[in the issue tracker](https://github.com/ieure/romhacks/labels/tacscan).
 
 ## Easter Eggs
 
