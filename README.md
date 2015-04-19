@@ -24,6 +24,16 @@ To use all the features of ha, you will need MAME.
  - Dev mode assembles, patches, and runs the patched ROM in MAME, all
    in one command.
 
+## Setup
+
+You need to have MAME somewhere on your machine, and set the
+`MAME_DIR` environment variable to wherever it’s installed. This
+assumes that ROMs live in `$MAME_DIR/roms`, and that the MAME
+executable is named `mame64`. You can set the MAME binary with
+`$MAME_BIN` or the `--mame-bin` option. The ROM location can’t
+currently be changed. At some point it ought to parse MAME’s
+configuration.
+
 ## Layout
 
 Patches must have a specific layout. `ha init <romname>` will create
