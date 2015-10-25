@@ -76,7 +76,7 @@ class Game(object):
     """A Python representation of a MAME game XML."""
 
     def __init__(self, xml):
-        self.game = xml.getroot().find('game')
+        self.game = xml.getroot().find('game') or xml.getroot().find('machine')
         self.name = self.game.attrib['name']
 
     def cpus(self):
