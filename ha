@@ -1,7 +1,7 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# © 2015 Ian Eure
+# © 2015, 2021 Ian Eure
 # Author: Ian Eure <ian.eure@gmail.com>
 #
 
@@ -58,6 +58,7 @@ import shutil
 import subprocess
 import xml.etree.ElementTree as ET
 from contextlib import closing, contextmanager
+from functools import reduce
 from glob import glob
 from pprint import pprint
 import logging
@@ -162,7 +163,7 @@ def assemble_patch():
     """Assemble the patch."""
     game = Game.new('game.xml')
 
-    for (region, cpu) in game.cpus().iteritems():
+    for (region, cpu) in game.cpus().items():
         pdir = 'patch/' + region
         if not os.path.isdir(pdir):
             LOG.debug("No patch in %s" % pdir)
@@ -216,7 +217,7 @@ def patch_roms():
             fd.seek(rom_patch_start)
             fd.write(bytes)
 
-    for fd in fds.itervalues():
+    for fd in fds.values():
         fd.close()
 
     return 0
@@ -251,7 +252,7 @@ def run_orig():
 def ignore_exists():
     try:
         yield
-    except OSError, e:
+    except OSError as e:
         pass
 
 
@@ -320,7 +321,7 @@ def main():
                         default=os.getenv('MAME_DIR', '.'),
                         help='MAME root directory')
     parser.add_argument('--mame-bin',
-                        default='mame64',
+                        default=os.getenv('MAME_BIN', 'mame64'),
                         help='MAME binary')
 
     parser.add_argument('cmd', choices=COMMANDS.keys(),
@@ -330,13 +331,12 @@ def main():
     args = parser.parse_args()
 
     MAME_DIR = os.path.expanduser(args.mame_dir)
-    MAME_BIN = args.mame_bin
-    MAME = '%s/%s' % (MAME_DIR, MAME_BIN)
+    MAME = args.mame_bin
 
     try:
         return COMMANDS[args.cmd](*args.rest)
-    except HAException, e:
-        print e
+    except HAException as e:
+        print(e)
         return -2
 
 
