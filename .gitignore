@@ -1,5 +1,6 @@
 */roms/original
 */patch/*/*.bin
+*/patch/*/*.srec
 /lib
 /bin
 /include
