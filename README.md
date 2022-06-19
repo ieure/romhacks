@@ -79,6 +79,28 @@ Example:
 maincpu = AssembleCRASM
 ```
 
+## Signature Patches
+
+It’s very common for games to have a method of verifying that their ROMs are correct, either as part of the power-on test, or in selftest mode.  ROMs patched with ha almost always cause these to report an error, so ha supports automatically correcting patched data to pass validation.  New methods can be added easily.
+
+It’s not possible for ha to detect the right method to use, so they have to be manually configured in `ha.ini`.  Example:
+
+```
+[signature]
+method = AtariXOR
+```
+
+### AtariXOR
+
+Used in Space Duel, and possibly other Atari titles.  The offset to place the correcting byte must be specified per ROM.  Offsets are specified relative to the bottom of the ROM, not the bottom of the address space.  Example:
+
+```
+[signature]
+method = AtariXOR
+136006-103.m1 = 0x0700
+136006-105.j1 = 0x0fef
+```
+
 ## Commands
 
 `ha init pacmanf`
