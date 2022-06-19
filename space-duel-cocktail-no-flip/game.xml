@@ -1,0 +1,328 @@
+<?xml version="1.0"?>
+<!DOCTYPE mame [
+<!ELEMENT mame (machine+)>
+	<!ATTLIST mame build CDATA #IMPLIED>
+	<!ATTLIST mame debug (yes|no) "no">
+	<!ATTLIST mame mameconfig CDATA #REQUIRED>
+	<!ELEMENT machine (description, year?, manufacturer?, biosset*, rom*, disk*, device_ref*, sample*, chip*, display*, sound?, input?, dipswitch*, configuration*, port*, adjuster*, driver?, feature*, device*, slot*, softwarelist*, ramoption*)>
+		<!ATTLIST machine name CDATA #REQUIRED>
+		<!ATTLIST machine sourcefile CDATA #IMPLIED>
+		<!ATTLIST machine isbios (yes|no) "no">
+		<!ATTLIST machine isdevice (yes|no) "no">
+		<!ATTLIST machine ismechanical (yes|no) "no">
+		<!ATTLIST machine runnable (yes|no) "yes">
+		<!ATTLIST machine cloneof CDATA #IMPLIED>
+		<!ATTLIST machine romof CDATA #IMPLIED>
+		<!ATTLIST machine sampleof CDATA #IMPLIED>
+		<!ELEMENT description (#PCDATA)>
+		<!ELEMENT year (#PCDATA)>
+		<!ELEMENT manufacturer (#PCDATA)>
+		<!ELEMENT biosset EMPTY>
+			<!ATTLIST biosset name CDATA #REQUIRED>
+			<!ATTLIST biosset description CDATA #REQUIRED>
+			<!ATTLIST biosset default (yes|no) "no">
+		<!ELEMENT rom EMPTY>
+			<!ATTLIST rom name CDATA #REQUIRED>
+			<!ATTLIST rom bios CDATA #IMPLIED>
+			<!ATTLIST rom size CDATA #REQUIRED>
+			<!ATTLIST rom crc CDATA #IMPLIED>
+			<!ATTLIST rom sha1 CDATA #IMPLIED>
+			<!ATTLIST rom merge CDATA #IMPLIED>
+			<!ATTLIST rom region CDATA #IMPLIED>
+			<!ATTLIST rom offset CDATA #IMPLIED>
+			<!ATTLIST rom status (baddump|nodump|good) "good">
+			<!ATTLIST rom optional (yes|no) "no">
+		<!ELEMENT disk EMPTY>
+			<!ATTLIST disk name CDATA #REQUIRED>
+			<!ATTLIST disk sha1 CDATA #IMPLIED>
+			<!ATTLIST disk merge CDATA #IMPLIED>
+			<!ATTLIST disk region CDATA #IMPLIED>
+			<!ATTLIST disk index CDATA #IMPLIED>
+			<!ATTLIST disk writable (yes|no) "no">
+			<!ATTLIST disk status (baddump|nodump|good) "good">
+			<!ATTLIST disk optional (yes|no) "no">
+		<!ELEMENT device_ref EMPTY>
+			<!ATTLIST device_ref name CDATA #REQUIRED>
+		<!ELEMENT sample EMPTY>
+			<!ATTLIST sample name CDATA #REQUIRED>
+		<!ELEMENT chip EMPTY>
+			<!ATTLIST chip name CDATA #REQUIRED>
+			<!ATTLIST chip tag CDATA #IMPLIED>
+			<!ATTLIST chip type (cpu|audio) #REQUIRED>
+			<!ATTLIST chip clock CDATA #IMPLIED>
+		<!ELEMENT display EMPTY>
+			<!ATTLIST display tag CDATA #IMPLIED>
+			<!ATTLIST display type (raster|vector|lcd|svg|unknown) #REQUIRED>
+			<!ATTLIST display rotate (0|90|180|270) #IMPLIED>
+			<!ATTLIST display flipx (yes|no) "no">
+			<!ATTLIST display width CDATA #IMPLIED>
+			<!ATTLIST display height CDATA #IMPLIED>
+			<!ATTLIST display refresh CDATA #REQUIRED>
+			<!ATTLIST display pixclock CDATA #IMPLIED>
+			<!ATTLIST display htotal CDATA #IMPLIED>
+			<!ATTLIST display hbend CDATA #IMPLIED>
+			<!ATTLIST display hbstart CDATA #IMPLIED>
+			<!ATTLIST display vtotal CDATA #IMPLIED>
+			<!ATTLIST display vbend CDATA #IMPLIED>
+			<!ATTLIST display vbstart CDATA #IMPLIED>
+		<!ELEMENT sound EMPTY>
+			<!ATTLIST sound channels CDATA #REQUIRED>
+		<!ELEMENT condition EMPTY>
+			<!ATTLIST condition tag CDATA #REQUIRED>
+			<!ATTLIST condition mask CDATA #REQUIRED>
+			<!ATTLIST condition relation (eq|ne|gt|le|lt|ge) #REQUIRED>
+			<!ATTLIST condition value CDATA #REQUIRED>
+		<!ELEMENT input (control*)>
+			<!ATTLIST input service (yes|no) "no">
+			<!ATTLIST input tilt (yes|no) "no">
+			<!ATTLIST input players CDATA #REQUIRED>
+			<!ATTLIST input coins CDATA #IMPLIED>
+			<!ELEMENT control EMPTY>
+				<!ATTLIST control type CDATA #REQUIRED>
+				<!ATTLIST control player CDATA #IMPLIED>
+				<!ATTLIST control buttons CDATA #IMPLIED>
+				<!ATTLIST control reqbuttons CDATA #IMPLIED>
+				<!ATTLIST control minimum CDATA #IMPLIED>
+				<!ATTLIST control maximum CDATA #IMPLIED>
+				<!ATTLIST control sensitivity CDATA #IMPLIED>
+				<!ATTLIST control keydelta CDATA #IMPLIED>
+				<!ATTLIST control reverse (yes|no) "no">
+				<!ATTLIST control ways CDATA #IMPLIED>
+				<!ATTLIST control ways2 CDATA #IMPLIED>
+				<!ATTLIST control ways3 CDATA #IMPLIED>
+		<!ELEMENT dipswitch (condition?, diplocation*, dipvalue*)>
+			<!ATTLIST dipswitch name CDATA #REQUIRED>
+			<!ATTLIST dipswitch tag CDATA #REQUIRED>
+			<!ATTLIST dipswitch mask CDATA #REQUIRED>
+			<!ELEMENT diplocation EMPTY>
+				<!ATTLIST diplocation name CDATA #REQUIRED>
+				<!ATTLIST diplocation number CDATA #REQUIRED>
+				<!ATTLIST diplocation inverted (yes|no) "no">
+			<!ELEMENT dipvalue (condition?)>
+				<!ATTLIST dipvalue name CDATA #REQUIRED>
+				<!ATTLIST dipvalue value CDATA #REQUIRED>
+				<!ATTLIST dipvalue default (yes|no) "no">
+		<!ELEMENT configuration (condition?, conflocation*, confsetting*)>
+			<!ATTLIST configuration name CDATA #REQUIRED>
+			<!ATTLIST configuration tag CDATA #REQUIRED>
+			<!ATTLIST configuration mask CDATA #REQUIRED>
+			<!ELEMENT conflocation EMPTY>
+				<!ATTLIST conflocation name CDATA #REQUIRED>
+				<!ATTLIST conflocation number CDATA #REQUIRED>
+				<!ATTLIST conflocation inverted (yes|no) "no">
+			<!ELEMENT confsetting (condition?)>
+				<!ATTLIST confsetting name CDATA #REQUIRED>
+				<!ATTLIST confsetting value CDATA #REQUIRED>
+				<!ATTLIST confsetting default (yes|no) "no">
+		<!ELEMENT port (analog*)>
+			<!ATTLIST port tag CDATA #REQUIRED>
+			<!ELEMENT analog EMPTY>
+				<!ATTLIST analog mask CDATA #REQUIRED>
+		<!ELEMENT adjuster (condition?)>
+			<!ATTLIST adjuster name CDATA #REQUIRED>
+			<!ATTLIST adjuster default CDATA #REQUIRED>
+		<!ELEMENT driver EMPTY>
+			<!ATTLIST driver status (good|imperfect|preliminary) #REQUIRED>
+			<!ATTLIST driver emulation (good|imperfect|preliminary) #REQUIRED>
+			<!ATTLIST driver cocktail (good|imperfect|preliminary) #IMPLIED>
+			<!ATTLIST driver savestate (supported|unsupported) #REQUIRED>
+			<!ATTLIST driver requiresartwork (yes|no) "no">
+			<!ATTLIST driver unofficial (yes|no) "no">
+			<!ATTLIST driver nosoundhardware (yes|no) "no">
+			<!ATTLIST driver incomplete (yes|no) "no">
+		<!ELEMENT feature EMPTY>
+			<!ATTLIST feature type (protection|timing|graphics|palette|sound|capture|camera|microphone|controls|keyboard|mouse|media|disk|printer|tape|punch|drum|rom|comms|lan|wan) #REQUIRED>
+			<!ATTLIST feature status (unemulated|imperfect) #IMPLIED>
+			<!ATTLIST feature overall (unemulated|imperfect) #IMPLIED>
+		<!ELEMENT device (instance?, extension*)>
+			<!ATTLIST device type CDATA #REQUIRED>
+			<!ATTLIST device tag CDATA #IMPLIED>
+			<!ATTLIST device fixed_image CDATA #IMPLIED>
+			<!ATTLIST device mandatory CDATA #IMPLIED>
+			<!ATTLIST device interface CDATA #IMPLIED>
+			<!ELEMENT instance EMPTY>
+				<!ATTLIST instance name CDATA #REQUIRED>
+				<!ATTLIST instance briefname CDATA #REQUIRED>
+			<!ELEMENT extension EMPTY>
+				<!ATTLIST extension name CDATA #REQUIRED>
+		<!ELEMENT slot (slotoption*)>
+			<!ATTLIST slot name CDATA #REQUIRED>
+			<!ELEMENT slotoption EMPTY>
+				<!ATTLIST slotoption name CDATA #REQUIRED>
+				<!ATTLIST slotoption devname CDATA #REQUIRED>
+				<!ATTLIST slotoption default (yes|no) "no">
+		<!ELEMENT softwarelist EMPTY>
+			<!ATTLIST softwarelist tag CDATA #REQUIRED>
+			<!ATTLIST softwarelist name CDATA #REQUIRED>
+			<!ATTLIST softwarelist status (original|compatible) #REQUIRED>
+			<!ATTLIST softwarelist filter CDATA #IMPLIED>
+		<!ELEMENT ramoption (#PCDATA)>
+			<!ATTLIST ramoption name CDATA #REQUIRED>
+			<!ATTLIST ramoption default CDATA #IMPLIED>
+]>
+
+<mame build="0.234 (unknown)" debug="no" mameconfig="10">
+	<machine name="spacduel" sourcefile="bwidow.cpp">
+		<description>Space Duel (version 2)</description>
+		<year>1980</year>
+		<manufacturer>Atari</manufacturer>
+		<rom name="136006-106.r7" size="2048" crc="691122fe" sha1="f53be76a49dba319050ca7767de3441521910e83" region="maincpu" offset="2800"/>
+		<rom name="136006-107.np7" size="4096" crc="d8dd0461" sha1="58060b20b2511d30d2ec06479d21840bdd0b53c6" region="maincpu" offset="3000"/>
+		<rom name="136006-201.r1" size="4096" crc="f4037b6e" sha1="9bacb64d257edd31f53db878477604f50681d78f" region="maincpu" offset="4000"/>
+		<rom name="136006-102.np1" size="4096" crc="4c451e8a" sha1="c05c52bb08acccb60950a15f05c960c3bc163d3e" region="maincpu" offset="5000"/>
+		<rom name="136006-103.m1" size="4096" crc="ee72da63" sha1="d36d62cdf7fe76ee9cdbfc2e76ac5d90f22986ba" region="maincpu" offset="6000"/>
+		<rom name="136006-104.kl1" size="4096" crc="e41b38a3" sha1="9e8773e78d65d74db824cfd7108e7038f26757db" region="maincpu" offset="7000"/>
+		<rom name="136006-105.j1" size="4096" crc="5652710f" sha1="b15891d22a47ac3448d2ced40c04d0ab80606c7d" region="maincpu" offset="8000"/>
+		<rom name="136002-125.n4" size="256" crc="5903af03" sha1="24bc0366f394ad0ec486919212e38be0f08d0239" region="avg:prom" offset="0"/>
+		<device_ref name="m6502"/>
+		<device_ref name="er2055"/>
+		<device_ref name="vector_device"/>
+		<device_ref name="screen"/>
+		<device_ref name="avg"/>
+		<device_ref name="speaker"/>
+		<device_ref name="pokey"/>
+		<device_ref name="pokey"/>
+		<device_ref name="discrete"/>
+		<chip type="cpu" tag="maincpu" name="MOS Technology 6502" clock="1512000"/>
+		<chip type="cpu" tag="pokey1" name="Atari C012294 POKEY" clock="1512000"/>
+		<chip type="cpu" tag="pokey2" name="Atari C012294 POKEY" clock="1512000"/>
+		<chip type="audio" tag="mono" name="Speaker"/>
+		<chip type="audio" tag="pokey1" name="Atari C012294 POKEY" clock="1512000"/>
+		<chip type="audio" tag="pokey2" name="Atari C012294 POKEY" clock="1512000"/>
+		<chip type="audio" tag="discrete" name="Discrete Sound"/>
+		<display tag="screen" type="vector" rotate="0" refresh="61.523438" />
+		<sound channels="1"/>
+		<input players="2" coins="2">
+			<control type="joy" player="1" buttons="3" ways="2"/>
+			<control type="joy" player="2" buttons="3" ways="2"/>
+		</input>
+		<dipswitch name="Lives" tag="DSW0" mask="3">
+			<diplocation name="D4" number="7" inverted="yes"/>
+			<diplocation name="D4" number="8" inverted="yes"/>
+			<dipvalue name="3" value="1" default="yes"/>
+			<dipvalue name="4" value="0"/>
+			<dipvalue name="5" value="3"/>
+			<dipvalue name="6" value="2"/>
+		</dipswitch>
+		<dipswitch name="Difficulty" tag="DSW0" mask="12">
+			<diplocation name="D4" number="5" inverted="yes"/>
+			<diplocation name="D4" number="6" inverted="yes"/>
+			<dipvalue name="Easy" value="4"/>
+			<dipvalue name="Normal" value="0" default="yes"/>
+			<dipvalue name="Medium" value="12"/>
+			<dipvalue name="Hard" value="8"/>
+		</dipswitch>
+		<dipswitch name="Language" tag="DSW0" mask="48">
+			<diplocation name="D4" number="3" inverted="yes"/>
+			<diplocation name="D4" number="4" inverted="yes"/>
+			<dipvalue name="English" value="0" default="yes"/>
+			<dipvalue name="German" value="16"/>
+			<dipvalue name="French" value="32"/>
+			<dipvalue name="Spanish" value="48"/>
+		</dipswitch>
+		<dipswitch name="Bonus Life" tag="DSW0" mask="192">
+			<diplocation name="D4" number="1" inverted="yes"/>
+			<diplocation name="D4" number="2" inverted="yes"/>
+			<dipvalue name="8000" value="192"/>
+			<dipvalue name="10000" value="0" default="yes"/>
+			<dipvalue name="15000" value="64"/>
+			<dipvalue name="None" value="128"/>
+		</dipswitch>
+		<dipswitch name="Coinage" tag="DSW1" mask="3">
+			<diplocation name="B4" number="7" inverted="yes"/>
+			<diplocation name="B4" number="8" inverted="yes"/>
+			<dipvalue name="2 Coins/1 Credit" value="1"/>
+			<dipvalue name="1 Coin/1 Credit" value="0" default="yes"/>
+			<dipvalue name="1 Coin/2 Credits" value="3"/>
+			<dipvalue name="Free Play" value="2"/>
+		</dipswitch>
+		<dipswitch name="Coin B" tag="DSW1" mask="12">
+			<diplocation name="B4" number="5" inverted="yes"/>
+			<diplocation name="B4" number="6" inverted="yes"/>
+			<dipvalue name="*1" value="0" default="yes"/>
+			<dipvalue name="*4" value="4"/>
+			<dipvalue name="*5" value="8"/>
+			<dipvalue name="*6" value="12"/>
+		</dipswitch>
+		<dipswitch name="Coin A" tag="DSW1" mask="16">
+			<diplocation name="B4" number="4" inverted="yes"/>
+			<dipvalue name="*1" value="0" default="yes"/>
+			<dipvalue name="*2" value="16"/>
+		</dipswitch>
+		<dipswitch name="Bonus Coins" tag="DSW1" mask="224">
+			<diplocation name="B4" number="1" inverted="yes"/>
+			<diplocation name="B4" number="2" inverted="yes"/>
+			<diplocation name="B4" number="3" inverted="yes"/>
+			<dipvalue name="1 each 5" value="128"/>
+			<dipvalue name="2 each 4" value="96"/>
+			<dipvalue name="1 each 4" value="64"/>
+			<dipvalue name="1 each 3" value="160"/>
+			<dipvalue name="1 each 2" value="32"/>
+			<dipvalue name="None" value="0" default="yes"/>
+		</dipswitch>
+		<dipswitch name="Charge by ..." tag="DSW2" mask="1">
+			<diplocation name="P10/11" number="4" inverted="yes"/>
+			<dipvalue name="player" value="1" default="yes"/>
+			<dipvalue name="game" value="0"/>
+		</dipswitch>
+		<dipswitch name="2-credit minimum" tag="DSW2" mask="2">
+			<diplocation name="P10/11" number="3" inverted="yes"/>
+			<dipvalue name="Off" value="2" default="yes"/>
+			<dipvalue name="On" value="0"/>
+		</dipswitch>
+		<dipswitch name="1-player game only" tag="DSW2" mask="4">
+			<diplocation name="P10/11" number="2" inverted="yes"/>
+			<dipvalue name="Off" value="4" default="yes"/>
+			<dipvalue name="On" value="0"/>
+		</dipswitch>
+		<dipswitch name="Unused" tag="DSW2" mask="8">
+			<diplocation name="P10/11" number="1" inverted="yes"/>
+			<dipvalue name="Off" value="8" default="yes"/>
+			<dipvalue name="On" value="0"/>
+		</dipswitch>
+		<dipswitch name="Service Mode" tag="IN0" mask="16">
+			<dipvalue name="Off" value="16" default="yes"/>
+			<dipvalue name="On" value="0"/>
+		</dipswitch>
+		<port tag=":DSW0">
+		</port>
+		<port tag=":DSW1">
+		</port>
+		<port tag=":DSW2">
+		</port>
+		<port tag=":IN0">
+		</port>
+		<port tag=":IN3">
+		</port>
+		<port tag=":IN4">
+		</port>
+		<driver status="good" emulation="good" savestate="supported"/>
+	</machine>
+	<machine name="avg" sourcefile="src/mame/video/avgdvg.cpp" isdevice="yes" runnable="no">
+		<description>Atari AVG</description>
+	</machine>
+	<machine name="discrete" sourcefile="src/devices/sound/discrete.cpp" isdevice="yes" runnable="no">
+		<description>Discrete Sound</description>
+		<sound channels="0"/>
+	</machine>
+	<machine name="er2055" sourcefile="src/devices/machine/er2055.cpp" isdevice="yes" runnable="no">
+		<description>ER2055 EAROM (64x8)</description>
+	</machine>
+	<machine name="m6502" sourcefile="src/devices/cpu/m6502/m6502.cpp" isdevice="yes" runnable="no">
+		<description>MOS Technology 6502</description>
+	</machine>
+	<machine name="pokey" sourcefile="src/devices/sound/pokey.cpp" isdevice="yes" runnable="no">
+		<description>Atari C012294 POKEY</description>
+		<sound channels="0"/>
+	</machine>
+	<machine name="screen" sourcefile="src/emu/screen.cpp" isdevice="yes" runnable="no">
+		<description>Video Screen</description>
+	</machine>
+	<machine name="speaker" sourcefile="src/emu/speaker.cpp" isdevice="yes" runnable="no">
+		<description>Speaker</description>
+		<sound channels="1"/>
+	</machine>
+	<machine name="vector_device" sourcefile="src/devices/video/vector.cpp" isdevice="yes" runnable="no">
+		<description>VECTOR</description>
+	</machine>
+</mame>
